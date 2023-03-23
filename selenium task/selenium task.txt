@@ -1,0 +1,182 @@
+                                                      selenium
+
+
+
+1. handle multiple windows
+
+driver.get("https://demo.automationtesting.in/Windows.html");
+		driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/ul/li[2]/a")).click();
+		String wind=driver.getWindowHandle();
+		WebElement window=driver.findElement(By.xpath("//*[@id=\"Seperate\"]/button"));
+		window.click();
+		Set<String> winds=driver.getWindowHandles();
+		for (String newwindow : winds) {
+			driver.switchTo().window(newwindow);
+			
+		}
+		WebElement serc=driver.findElement(By.xpath("//*[@id=\"docsearch\"]/button"));
+		serc.click();
+		driver.close();
+		driver.switchTo().window(wind);
+
+
+2 code for positive and negative scenarios for alert
+
+	alert with ok
+		driver.get("https://demo.automationtesting.in/Alerts.html");
+		WebElement alert=driver.findElement(By.xpath("//*[@id=\"OKTab\"]/button"));
+		alert.click();
+		Alert alert1=driver.switchTo().alert();
+		alert1.accept();
+		
+        alert with cancel
+		
+		driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[1]/ul/li[2]/a")).click();
+		WebElement alerts=driver.findElement(By.xpath("//*[@id=\"CancelTab\"]/button"));
+		alerts.click();
+		Alert alerts1=driver.switchTo().alert();
+		alerts1.dismiss();
+		
+
+
+4. code for handling frames
+
+driver.get("https://demo.automationtesting.in/Frames.html");
+		driver.switchTo().frame(0);
+		WebElement frme=driver.findElement(By.xpath("/html/body/section/div/div/div/input"));
+		frme.click();
+		driver.switchTo().defaultContent();
+
+
+6. select multiple option for dropdown
+
+               driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+		WebElement drop1=driver.findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
+		Select select1=new Select(drop1);
+		select1.selectByIndex(1);
+		select1.selectByIndex(2);
+
+
+7. file upload
+
+                driver.get("https://demo.guru99.com/test/upload/");
+		WebElement fileupload=driver.findElement(By.className("upload_txt"));
+		fileupload.sendKeys("C:\\Users\\91827\\Documents\\Documents\\resume QA.docx");*/
+		
+		/*driver.get("https://cgi-lib.berkeley.edu/ex/fup.html");
+		WebElement fupload=driver.findElement(By.xpath("/html/body/form/input[1]"));
+		fupload.click();*/
+
+
+9. read date from excel
+
+                 package javaseleniumnew;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class datadrivenapche {
+	
+	WebDriver driver;
+	static List<String> usernamelist=new ArrayList<String>();
+	static List<String> passwordlist=new ArrayList<String>();
+	
+	
+	public void redexcel() throws IOException {
+		FileInputStream excel=new FileInputStream("C:\\Users\\91827\\Documents\\datadriven\\driven2.xlsx");
+		Workbook workbook=new XSSFWorkbook(excel);
+		Sheet sheet=workbook.getSheet("Sheet1");
+		Iterator<Row> rowiterator=sheet.iterator();
+		while(rowiterator.hasNext()) {
+			Row rowvalue=rowiterator.next();
+		Iterator<Cell> celliterate=	rowvalue.iterator();
+		int i=2;
+		while(celliterate.hasNext()) {
+			if(i%2==0) {
+				usernamelist.add(celliterate.next().getStringCellValue());
+			}
+			else {
+				passwordlist.add(celliterate.next().getStringCellValue());
+			}
+			
+			i++;
+		}
+		}
+		
+	}
+
+	
+public void driven(String uname,String passwrd) {
+		
+		System.setProperty("webdriver.chrome.driver","C:\\Users\\91827\\Desktop\\driver\\chromedriver.exe");
+		 driver= new ChromeDriver();
+		 
+		 driver.get("https://rahulshettyacademy.com/locatorspractice/");
+		 WebElement user=driver.findElement(By.id("inputUsername"));
+		 user.sendKeys(uname);
+		 
+		WebElement pass= driver.findElement(By.name("inputPassword"));
+		pass.sendKeys(passwrd);
+		 driver.findElement(By.id("chkboxOne")).click();
+			driver.findElement(By.id("chkboxTwo")).click();
+			driver.findElement(By.className("signInBtn")).click();
+			//driver.quit();
+	}
+
+public void execute() {
+	for(int i=0;i<usernamelist.size();i++) {
+		driven(usernamelist.get(i),passwordlist.get(i));
+	}
+}
+	public static void main(String[] args) throws IOException {
+		datadrivenapche subha=new datadrivenapche();
+		subha.redexcel();
+		System.out.println("usernamelist1"+usernamelist);
+		System.out.println("password1"+passwordlist);
+		subha.execute();
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
+
+8. taking screenshot
+
+driver.get("https://www.google.com/");
+ this.takeSnapShot(driver, "c://test.png") ;     
+ }
+ public static void takeSnapShot(WebDriver webdriver,String fileWithPath) throws Exception{
+TakesScreenshot scrShot =((TakesScreenshot)webdriver);
+File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
+
+ File DestFile=new File(fileWithPath);
+  FileUtils.copyFile(SrcFile, DestFile);
+
+    }
+
+
+13. perform upload a file
+
+         Uploading files in WebDriver is done by simply using the sendKeys() method on the file-select input field to enter the path to the file to be uploaded.
+
+
+15. find more than one webelement in a list
+
+        findElements() command in WebDriver can be used to find more than one web elements and save them into a list.
+        If the provided value has the possibility to locate a single element, we can use findElement() command and save them into a variable of WebElement
+        If the provided locator has the possibility to locate multiple elements, we can use findElements() command and save them into a list of WebElement’s i.e. List<WebElement>
+

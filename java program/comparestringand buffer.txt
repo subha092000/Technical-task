@@ -1,0 +1,8 @@
+   37 compre stringbuffer with a string
+
+String
+String consumes more as compared to the stringbuffer. 
+
+Stingbuffer
+StringBuffer uses less memory as compared to the string. It utilises a string constant pool to store the values.
+ It prefers heap memory to store the objects.
